@@ -1,0 +1,19 @@
+# Исключаем папки сборки и кэша CMake
+build/
+.cmake/
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+
+# Исключаем бинарники и файлы отладки
+*.elf
+*.bin
+*.hex
+*.map
+*.su
+
+# Исключаем локальные настройки IDE
+.vscode/
+.idea/
+*.user
