@@ -1,34 +1,33 @@
-#ifndef __MOTION_H
-#define __MOTION_H
+#ifndef MOTION_H
+#define MOTION_H
 
-#include "main.h"
+#include "stm32f1xx_hal.h"
 
-// Перечисление состояний системы (State Machine) из ТЗ
+// ============================================================================
+//                   КОНФИГУРАЦИЯ УСТАНОВКИ
+// ============================================================================
+#define STEPS_PER_MM            44.15f    // Коэфициент перевода шагов мотора в мм (44.15 шаг/мм)
+#define MIN_POSITION_MM         0         // Физический ноль при достижении концевика(фотопрерывателя)
+#define MAX_POSITION_MM         170       // Предел хода каретки (17 см)
+
+#define START_PERIOD_US         6000      // Стартовая скорость
+#define MAX_SPEED_PERIOD_US     1500      // Маршевая максимальная скорость
+#define ACCEL_LIMIT_STEPS       450       // Количество шагов мотора для разгона и торможения
+// ============================================================================
+
 typedef enum {
-    STATE_STARTUP,
-    STATE_UNHOMED,      //
+    STATE_STARTUP = 0,
+    STATE_UNHOMED,
     STATE_HOMING,
     STATE_READY,
     STATE_MOVING,
     STATE_FAULT
 } ControllerState_t;
 
-// Глобальные переменные, доступные для CLI и main
-extern volatile ControllerState_t current_state;
-extern int32_t current_position;
-extern int32_t target_position;
-extern uint32_t steps_executed;
-
-// Константы ограничений
-extern const int32_t MIN_POSITION;
-extern const int32_t MAX_POSITION;
-
-// Прототипы функций модулей
 void Motion_Init(void);
-void Motion_Step(int8_t direction);
-void Motion_Update(void);
 void Motion_StartHoming(void);
-void Motion_StartGoto(int32_t new_target);
+void Motion_StartGoto(int32_t new_target_mm);
 void Motion_StopExecution(void);
+void Motion_Step(int8_t direction);
 
-#endif /* __MOTION_H */
+#endif // MOTION_H

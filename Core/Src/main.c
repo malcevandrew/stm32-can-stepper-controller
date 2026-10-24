@@ -112,8 +112,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      Motion_Update();            // Диспетчер состояний движения и трапеции скорости
-      
+       
       CAN_Network_Update();
 
       CAN_Network_UpdateStatus();  // следит за временем и шлет отчеты обратной связи

@@ -32,6 +32,10 @@ void CLI_Init(void) {
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     if (huart->Instance == USART1) {
 
+        extern volatile uint8_t current_state; 
+        extern int32_t current_position;
+        extern int32_t target_position;
+
         // Реагируем на '\n' (конец посылки)
         if (rx_data == '\n') {
             if (rx_index > 0) {
