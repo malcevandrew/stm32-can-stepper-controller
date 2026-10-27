@@ -18,9 +18,10 @@ int __io_putchar(int ch) {
     return ch;
 }
 
+// Инициализация UART
 void CLI_Init(void) {
     
-    volatile uint32_t tmpreg = huart1.Instance->SR;     // сброс аппаратного мусора линии.
+    volatile uint32_t tmpreg = huart1.Instance->SR;     // Сброс аппаратного мусора линии
     tmpreg = huart1.Instance->DR;
 
     (void)tmpreg; // Защита от предупреждения компилятора об unused variable
@@ -71,8 +72,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     }
 }
 
-
-// Си-Коллбек ошибок линии UART
+// Коллбек ошибок линии UART
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
     if (huart->Instance == USART1) {
         volatile uint32_t sr = huart->Instance->SR;

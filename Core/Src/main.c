@@ -98,24 +98,23 @@ int main(void)
   MX_CAN_Init();
 
   /* USER CODE BEGIN 2 */
-  printf("\r\n=== CAN-based Stepper Motion Controller ===\r\n");
+  printf("\r\n=== Stepper Motion Controller via CAN ===\r\n");
   printf("\r\n=== Type HOME for starting homing ===\r\n");
 
-  Motion_Init(); // Инициализация мотора
-  CLI_Init();    // Инициализация UART и прерываний
-  CAN_Network_Init();
+  Motion_Init();                  // Инициализация мотора
+  CLI_Init();                     // Инициализация UART (для отладки)
+  CAN_Network_Init();             // Инициализация CAN
 
-  HAL_TIM_Base_Start_IT(&htim2);// Запуск аппаратного таймера TIM2 в режиме прерываний
+  HAL_TIM_Base_Start_IT(&htim2);  // Запуск аппаратного таймера TIM2 в режиме прерываний
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {
-       
-      CAN_Network_Update();
-
-      CAN_Network_UpdateStatus();  // следит за временем и шлет отчеты обратной связи
+  {  
+      CAN_Network_Update();        // Передача к выполнению успешно принятой команды
+      CAN_Network_UpdateStatus();  // Отправка циклической телеметрии и результата выполнения команды
 
     /* USER CODE END WHILE */
 
